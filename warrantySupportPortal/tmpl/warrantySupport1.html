@@ -1,0 +1,185 @@
+
+<data-common-vin-search-popup data-module="service"></data-common-vin-search-popup>
+<!-- <data-vehicle-info-bluelink-reset-history-popup></data-vehicle-info-bluelink-reset-history-popup>
+<data-vehicle-info-dealer-activities-popup></data-vehicle-info-dealer-activities-popup>
+<data-vehicle-info-maintenance-pay-detail-popup></data-vehicle-info-maintenance-pay-detail-popup>
+<data-vehicle-info-contract-info-popup></data-vehicle-info-contract-info-popup>
+<data-vehicle-info-maintenance-alert-history-popup></data-vehicle-info-maintenance-alert-history-popup>
+<data-vehicle-info-mvr-print-popup></data-vehicle-info-mvr-print-popup>
+<data-vehicle-info-svr-print-popup></data-vehicle-info-svr-print-popup>
+<data-vehicle-info-last-service-check-print-popup></data-vehicle-info-last-service-check-print-popup>
+<data-vehicle-info-ota-detail-popup></data-vehicle-info-ota-detail-popup> -->
+ 
+
+<div id="content" class="animated fadeInDown" ng-init="warrantySupport.init()">
+	
+	<div class="row" ng-controller="warrantySupportCtrl">
+  		<div class="warranty-header" style="display:flex; align-items:center ">
+        	<div id="logo-warranty">		 
+					<img src="styles/img/logo_webdcs0.jpg" alt="Hyundai WebDCS">  					
+			</div> 	
+			<div id="nav-link" style="margin-left:20px; display:flex">
+				<span class="nav-item pointer" ng-click="knowledgeBase()" >Home</span> &nbsp; &nbsp;
+			</div>	
+			<div id="warranty_btns">
+            			<button type="button" class="btn btn-primary btn-sm" role="button" ng-click="warrantySupportForm()">Support Request</button> &nbsp;
+               			<button type="button" class="btn btn-primary btn-sm" role="button" ng-click="dealerInfo()">Dealer</button>                
+			</div>
+   		</div>	    		
+      			
+		</div>
+			<span id="info_box"></span>
+			<div id="warranty-body" style="width: 100%; height:100%; margin-top:40px" >
+			<div id="support_body" style="display:none;"> 
+				<div class="container" style="width: 100%; height:100%;">
+					 <!--  <span class="support_heading">Support Request Form</span> -->
+					  
+					  	<!-- Header Start  -->
+					  				<div jarvis-widget
+					data-widget-color="white" 
+					data-widget-togglebutton="false"
+					data-widget-editbutton="false" 
+					data-widget-fullscreenbutton="false"
+					data-widget-deletebutton="false"
+					data-widget-colorbutton="false"
+					data-widget-custombutton="false">
+   		
+					<!-- <header class="clearfix">
+						<h4 class="header-inline">Support Request Form</h4>							
+					</header> -->
+					
+					<header class="clearfix ui-sortable-handle" role="heading">
+						<h1 class="ng-binding">Support Request Form</h1> 
+						<span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+					</header>
+						
+						</div>
+		<!-- Header End  --> 
+					  
+					  <form name="supportForm" ng-submit="submitForm()" novalidate>
+					
+					      <!-- Dealer -->
+					<div class="form_div">
+					    <label class="form_label" for="dealer">Dealer</label>
+					    <input class="input_form1 form-control" type="text" id="dealer" ng-model="formData.dealer" placeholder="CA197: RIVERSIDE HYUNDAI" required>
+					</div>
+					
+			<!-- Assistance Request Type -->
+			<div class="form_div">
+			    <label class="form_label" for="assistanceType">Assistance Request Type</label>
+			    <select class="dropDown_form form-control" id="assistanceType" ng-model="formData.assistanceType" required>
+			        <option value="">Select Request</option>
+					<option value="Type 1">PA - Reopen PA Request</option>
+					<option value="Type 2">PA - Clarification on PA Instructions</option>
+					<option value="Type 3">PA - Request Status Inquiry</option>
+					
+					<option value="Type 4">WCC - Claim Coding Inquiry</option>
+					<option value="Type 5">WCC - Claim Coding Inquiry</option>
+					<option value="Type 6">WCC - Claim Coding Inquiry</option>
+					
+					<option value="Type 7">WTC - Part Return</option>
+					<option value="Type 8">WTC - Shipping Documents / Issue</option>
+					<option value="Type 9">WTC - Claim Appeal</option>
+					
+			    </select>
+			</div>
+			<br/> 
+			
+			<!-- RO Number and Date -->
+			<div class="form_div two-columns">
+			    <div class="column">
+			        <label class="form_label" for="roNumber">RO Number</label>
+			        <input class="input_form form-control" type="text" id="roNumber" ng-model="formData.roNumber" required>
+			    </div>
+			    <div class="column rightAlign">
+			        <label class="form_labelR" for="roOpenDate">RO Open Date</label>
+			        <input class="input_form form-control" type="date" id="roOpenDate" ng-model="formData.roOpenDate" required>
+			    </div>
+			</div>
+			
+			 <!-- VIN -->
+			<div class="form_div two-columns">
+			  <div class="column">
+			    <label class="form_label" for="vin">VIN</label>
+			    <input class="input_form form-control" type="text" id="vin" ng-model="formData.vin" required>
+			</div>
+			
+			<!-- Request Type -->
+			<div class="column rightAlign">
+			    <label class="form_labelR" for="requestType">Select Request Type</label>
+			    <select class="input_formSRT form-control" id="requestType" ng-model="formData.requestType" required>
+			        <option class="input_form" value="">Select Request Type</option>
+			<option class="input_form" value="Request Type 1">Request Type 1</option>
+			<option class="input_form" value="Request Type 2">Request Type 2</option>
+			<option class="input_form" value="Request Type 3">Request Type 3</option>
+			    </select>
+			</div>
+			</div>
+			<br/>
+			
+			
+			
+			<!-- First Name and Last Name -->
+			<div class="form_div two-columns">
+			    <div class="column ">
+			        <label class="form_label" for="firstName">First Name</label>
+			        <input class="input_form form-control" type="text" id="firstName" ng-model="formData.firstName" placeholder="JOHN" required>
+			    </div>
+			    <div class="column rightAlign">
+			        <label class="form_labelR" for="lastName">Last Name</label>
+			        <input class="input_form form-control"  type="text" id="lastName" ng-model="formData.lastName" placeholder="SMITH" required>
+			    </div>
+			</div>
+			
+			<!-- Contact Phone Number and Email -->
+			<div class="form_div two-columns">
+			    <div class="column">
+			        <label class="form_label" for="contactPhone">Contact Phone Number</label>
+			        <input class="input_form form-control" type="tel" id="contactPhone" ng-model="formData.contactPhone" required> 
+			    </div>
+			    <div class="column rightAlign">
+			        <label class="form_labelR" for="emailAddress">Email Address</label>
+			        <input class="input_form form-control" type="email" id="emailAddress"  ng-model="formData.emailAddress" placeholder="JSMITH@DEALEREMAIL.COM" required>
+			    </div>
+			</div>
+			<br/>
+			
+			
+			<!-- Request Description -->
+			<div class="text_area_div">
+			    <label class="text_area_label" for="request">Request (Enter needed assistance) Character Limit (1000 max)</label>
+			    <textarea class="text_area form-control" id="request" ng-model="formData.request" rows="4" maxlength="1000"></textarea>
+			</div>
+			
+			<!-- Attachments -->
+			<div class="select_file_div">
+			<div class="attach_label">
+			 <label class="select_file_label" for="attachment">Attachment/s</label><br/>
+			    <label class="select_file_label" for="attachment">placeholder for:</label>  <br/>        			    
+			    <small class="form-text"> <li>Acceptable file types</li><li>Upload size max</li><li>Upload count limit</li></small>
+			</div>
+			<div class="attach_btn">
+			<input class="form-control-file" type="file" id="attachment" file-model="formData.attachment">
+			</div>
+			   
+			    
+			</div> 
+			
+			<!-- Submit Button -->
+			<!-- <button type="submit" class="btn btn-primary" ng-disabled="supportForm.$invalid">Submit</button> -->
+			    </form>
+			</div>
+
+		
+		</div>
+		<div id="dealer_body" style="display:none;">
+		<h2>Dealer Page....</h2>
+		</div>
+		<div id="knowledgeBase" style="display:none" ng-controller="warrantySupportCtrl">
+	       <iframe id="" ng-src="https://www.google.com/" width="100%" height="800"></iframe>
+	       <iframe ng-src="{{iframeUrl}}" width="600" height="400" frameborder="0"></iframe>
+		</div>
+	    	</div>
+	
+</div> 
+

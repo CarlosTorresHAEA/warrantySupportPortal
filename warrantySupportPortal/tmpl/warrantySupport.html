@@ -1,0 +1,521 @@
+
+
+<style>
+.dropdown-toggle {
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+	display: inline-block;
+	padding: 8px;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	right: 0;
+	background-color: #fff;
+	min-width: 160px;
+	z-index: 1;
+}
+
+.dropdown-content a {
+	color: white;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	background-color: #606163;
+}
+
+.dropdown-content a:hover {
+	background-color: #3e3f40;
+}
+
+.user_info:hover .dropdown-content {
+	display: block;
+}
+</style>
+
+
+<div id="content" class="animated fadeInDown" ng-init="warrantySupport.init()">	
+	<div class="row" ng-controller="warrantySupportCtrl">
+  		<div class="warranty-header" style="display:flex; align-items:center ">
+        	<div id="logo-warranty">		 
+				<img src="styles/img/logo_webdcs0.jpg" alt="Hyundai WebDCS">  					
+			</div> 	
+			<div id="nav-link" style="margin-left:20px; display:flex">
+				<span class="nav-item pointer" ng-click="knowledgeBase()" >Home</span> &nbsp; &nbsp;
+			</div>	
+			<div id="warranty_btns">
+        		<button type="button" class="btn btn-primary btn-sm" role="button" ng-click="warrantySupportForm()">Support Request</button> &nbsp;
+            	<button type="button" class="btn btn-primary btn-sm" role="button" ng-click="dealerInfo()">Dealer</button>                
+			</div>
+			
+		</div>
+		<div class="pull-right">
+			<div class="user_info">
+				<a href="#" class="dropdown-toggle"><i class="fa fa-user"></i>
+					<i class="fa fa-sort-desc"></i>
+				</a>
+				<div class="dropdown-content">
+					<a ng-click="warrantySupport.openAccountProfile()"
+						ui-sref="webdcs.warranty.warrantySupportPortal.accountProfile"
+						href="#/accountProfile">Account Profile</a>
+				</div>
+			</div>
+		</div>
+		<span id="info_box"></span>
+		
+		<div id="warranty-body" style="width:100%; height:100%; margin-top:40px" >
+			<div id="support_body" style="display:none;"> 
+				<section id="widget-grid" widget-grid>
+			 		<form name="inputForm" id="inputForm">
+						<div class="row">
+							<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">						
+								<div jarvis-widget
+									data-widget-color="white" 
+									data-widget-togglebutton="false"
+									data-widget-editbutton="false" 
+									data-widget-fullscreenbutton="false"
+									data-widget-deletebutton="false"
+									data-widget-colorbutton="false"
+									data-widget-custombutton="false">
+								
+										<header class="clearfix">
+											<h4>Support Request Form</h4> 
+										</header>
+									
+										<div>
+											<div class="widget-body">
+												<div  class="smart-form tbl-form">
+													<section class="clearfix">
+														<div class="col col-12 bottom_border no_padding" >
+															<dl class="col col-6 no_border">
+																<dt class="warranty_dt_width"><label class="label">Dealer:</label></dt>
+																<dd>{{warrantySupport.searchOptions.dealerId}} : {{warrantySupport.searchOptions.dealercode}} : {{::warrantySupport.dealerInfo.dealername}}</dd>
+															</dl>															
+														</div>
+														<div class="col col-12 bottom_border no_padding">
+															<dl class="col col-6 no_border">
+																<dt class="warranty_dt_width"><label class="label">Assistance Request Type:</label></dt>
+																<dd >
+																	<select 
+																		class="dropDown_form form-control" 
+																		id="assistanceType" 
+																		ng-model="warrantySupport.formData.assistanceType" 
+																		ng-change="warrantySupport.selectOption()" required>
+																		<option value="">Select Request</option>
+																		<option value="PA">PA - Reopen PA Request</option>
+																		<option value="PA">PA - Clarification on PA Instructions</option>
+																		<option value="PA">PA - Request Status Inquiry</option>
+																		
+																		<option value="WCC">WCC - Claim Coding Inquiry</option>
+																		<option value="WCC">WCC - Claim Coding Inquiry</option>
+																		<option value="WCC">WCC - Claim Coding Inquiry</option>
+																		
+																		<option value="WTC">WTC - Part Return</option>
+																		<option value="WTC">WTC - Shipping Documents / Issue</option>
+																		<option value="WTC">WTC - Claim Appeal</option>
+																	</select>
+																</dd>
+															</dl>
+														</div> 
+													 	<div class="empty_div col col-12 bottom_border no_padding"></div>
+														<div class="col col-12 bottom_border no_padding" >
+															<dl class="col col-6 no_border" >
+																<dt class="warranty_dt_width"><label class="label need">RO Number:</label></dt>
+																<dd>
+																	<input 
+																		class="warranty_input_width2 form-control" 
+																		type="text" 
+																		ng-model="warrantySupport.searchOptions.roSearch"  
+																		common-input-number-upper-char-only 
+																		id="roSearch" 
+																		required>
+																	<!-- <b style="white-space: nowrap; position: absolute;top: 30px;" 
+																		ng-if="warrantySupport.executestart && warrantySupport.txtOrderNumber.$invalid && (orderEntrySubmitForm.$invalid||orderEntrySubmitForm.$saveInvalid)" class="tooltip  tooltip-error warranty_err_font"> 
+																		{{::webdcsLang.parts.tmsg_order_numbercheck}}
+			                                						</b> -->
+																	</dd>
+															</dl>		
+															<dl class="col col-6 no_border">
+																<dt class="warranty_dt_width"><label class="label need">RO Open Date:</label></dt>
+																<dd>
+																	<label class="input">
+																		<i class="icon-append fa fa-calendar"></i> 
+																		<input 
+																			type="text"
+									                                       name="roDate" 
+									                                       id="roDate" 
+									                                       data-smart-datepicker
+									                                       placeholder="MM/DD/YYYY" 
+									                                       class="datepicker input-sm"
+									                                       data-date-format='mm/dd/yy'
+									                                       data-min-restrict="#repairDateOut"
+									                                       ng-model="warrantySupport.searchData.roDate" 
+									                                       data-required
+									                                       required
+								                                       >
+																	</label> 
+																</dd>
+															</dl>													
+														</div>
+														
+														<div id="PA" class="col col-12 bottom_border no_padding" style="align-items:center ">
+														 	 <div class="col-12 bottom_border" style="align-items:center ">
+														 	 	<dl class="col col-6" >	
+														 	 		<dt class="warranty_dt_width"><label class="label need">VIN Last 8:</label></dt>	
+														 	 		
+														 	 		<dd>
+											                        	<div class="input-group" id="searchVinLabel">
+											                            	<label class="input" ng-class="{'state-error': ((warrantySupport.causalPart.$invalid &amp;&amp; warrantySupport.$invalid)||warrantySupport.$BlurCausalPart)}">
+													                            <input 
+													                            	class="input-sm ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" 
+													                            	type="text" 
+													                            	ng-model="warrantySupport.searchOptions.vinLast" 
+													                            	id="pa_searchVinLast" 
+			   																		name="searchVinLast" 
+													                            	ng-blur="wrClaimEntryDetail.checkWSCause()" 
+													                            	data-required="" 
+													                            	maxlength="17" 
+													                            	required
+												                            	>
+													                             
+												                            </label>
+												                            <div class="input-group-btn">
+											                                 	<button class="btn btn-default btn-sm" type="button" ng-click="warrantySupport.openVinSearchPop()"><i class="fa fa-search"></i></button>
+											                             	</div>
+											                         	</div>
+											                     	</dd>													 																 		
+																</dl>														 																 	 
+																															
+																	<dl class="col col-6 " >	
+																		<dt class="warranty_dt_width"><label class="label need">PA Number:</label></dt>
+																		<dd>	 																   
+																	    	<input 
+																	    		class="warranty_input1 warranty_input_width2 form-control" 
+																	    		type="text" 
+																	    		ng-model="warrantySupport.searchOptions.paNumber" 
+																	    		common-input-number-upper-char-only
+																	    		id="paNumber" required
+																    		>
+																		</dd>
+																	</dl>
+														 	 </div>		
+														 	  <div class="col-12 " style="align-items:center ">
+														 	  	<dl class="col col-6 no_border" >	
+														 	 		<dt class="warranty_dt_width"><label class="label ">Causal Part Number:</label></dt>														 	
+															 		<dd>
+															 		</dd>
+														 		</dl>
+														 		<dl class="col col-6 no_border" >	
+														 	 		<dt class="warranty_dt_width"><label class="label">Request Due Date:</label></dt>														 	
+															 		<dd>
+															 		</dd>
+														 		</dl>
+														 	  </div> 
+														</div>	
+														
+														 <div id="WCC" class="col col-12 bottom_border no_padding" style="display:none; align-items:center  ">
+														 	<div class="col-12" style="align-items:center ">														 	
+																<dl class="col col-6 " >	
+														 	 		<dt class="warranty_dt_width"><label class="label need">VIN Last 8:</label></dt>														 	
+															 		<dd>
+											                        	<div class="input-group" id="searchVinLabel">
+											                            	<label class="input" ng-class="{'state-error': ((warrantySupport.causalPart.$invalid &amp;&amp; warrantySupport.$invalid)||warrantySupport.$BlurCausalPart)}">
+													                            <input 
+													                            	class="input-sm ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" 
+													                            	type="text" 
+													                            	ng-model="warrantySupport.searchOptions.vinLast" 
+													                            	id="wcc_searchVinLast" 
+			   																		name="searchVinLast" 
+													                            	ng-blur="wrClaimEntryDetail.checkWSCause()" 
+													                            	data-required="" 
+													                            	maxlength="17" 
+													                            	required
+													                            	>
+													                             
+												                            </label>
+												                            <div class="input-group-btn">
+											                                 	<button class="btn btn-default btn-sm" type="button" ng-click="warrantySupport.openVinSearchPop()"><i class="fa fa-search"></i></button>
+											                             	</div>
+											                         	</div>
+											                     	</dd>
+																</dl>														 																 	 
+																															
+																<dl class="col col-6 " >	
+																	<dt class="warranty_dt_width"><label class="label need">Claim Number:</label></dt>
+																	<dd>
+											                        	<div class="input-group">
+											                            	<label class="input" ng-class="{'state-error': ((warrantySupport.causalPart.$invalid &amp;&amp; warrantySupport.$invalid)||warrantySupport.$BlurCausalPart)}">
+													                            <input 
+													                            	class="input-sm ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" 
+													                            	type="text" 
+													                            	ng-model="warrantySupport.searchOptions.claimNumber" 
+													                            	name="causalCode"
+													                            	ng-blur="wrClaimEntryDetail.checkWSCause()" 
+													                            	data-required="" 
+													                            	maxlength="3" 
+													                            	readonly="readonly"
+													                            	required
+												                            	>
+													                             
+												                            </label>
+												                            <div class="input-group-btn">
+											                                 	<button class="btn btn-default btn-sm" type="button" ng-click="warrantySupport.claimNumPopupOpen()"><i class="fa fa-search"></i></button>
+											                             	</div>
+											                         	</div>
+											                     	</dd>
+																</dl>																 	 																		
+																</div>	
+																<div class="col-12" style="align-items:center ">
+														 	  	<dl class="col col-6 no_border" >	
+														 	 		<dt class="warranty_dt_width"><label class="label">Causal Part Number:</label></dt>														 	
+															 		<dd>
+															 		</dd>
+														 		</dl>
+														 		<dl class="col col-6 no_border" >	
+														 	 		<dt class="warranty_dt_width"><label class="label">Request Due Date:</label></dt>														 	
+															 		<dd>
+															 		</dd>
+														 		</dl>
+														 	  </div>																	 
+															</div>
+																
+																
+															<div id="WTC" class="col col-12 bottom_border no_padding" style="display:none; align-items:center  ">																														
+																<div class="col-12" style="align-items:center "> 
+																	<dl class="col col-6" >	
+															 	 		<dt class="warranty_dt_width"><label class="label need">VIN Last 8:</label></dt>	
+															 	 		<dd>
+											                        	<div class="input-group" id="searchVinLabel">
+											                            	<label class="input" ng-class="{'state-error': ((warrantySupport.causalPart.$invalid &amp;&amp; warrantySupport.$invalid)||warrantySupport.$BlurCausalPart)}">
+													                            <input 
+													                            	class="input-sm ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" 
+													                            	type="text" 
+													                            	ng-model="warrantySupport.searchOptions.vinLast" 
+													                            	id="wtc_searchVinLast" 
+			   																		name="searchVinLast" 
+													                            	ng-blur="warrantySupport.checkWSCause()" 
+													                            	data-required="" 
+													                            	maxlength="17" 
+													                            	required
+													                            	>
+													                             
+												                            </label>
+												                            <div class="input-group-btn">
+											                                 	<button class="btn btn-default btn-sm" type="button" ng-click="warrantySupport.openVinSearchPop()"><i class="fa fa-search"></i></button>
+											                             	</div>
+											                         	</div>
+											                     	</dd>												 	
+																 		
+																	</dl>														 																 	 
+																															
+																	<dl class="col col-6 " >	
+																		<dt class="warranty_dt_width"><label class="label need">Claim Number:</label></dt>
+																		<dd>
+												                        	<div class="input-group">
+												                            	<label class="input" ng-class="{'state-error': ((warrantySupport.causalPart.$invalid &amp;&amp; warrantySupport.$invalid)||warrantySupport.$BlurCausalPart)}">
+														                            <input 
+														                            	class="input-sm ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" 
+														                            	type="text" 
+														                            	ng-model="warrantySupport.searchOptions.claimNum" 
+														                            	name="claimNum" 
+														                            	id="claimNum"
+														                            	ng-blur="warrantySupport.checkclaimNum()" 
+														                            	data-required="" 
+														                            	maxlength="3"  
+														                            	required
+													                            	>
+														                             
+													                            </label>
+													                            <div class="input-group-btn">
+												                                 	<button class="btn btn-default btn-sm" type="button" ng-click="warrantySupport.claimNumPopupOpen()"><i class="fa fa-search"></i></button>
+												                             	</div>
+												                         	</div>
+												                     	</dd>																		
+																	</dl>																 	 																		
+																	</div>	
+																	<div class="col-12" style="align-items:center ">
+																	<dl class="col col-6">
+												                    	<dt class="warranty_dt_width"><label class="label need ng-binding">Causal Part Number:</label></dt>
+												                     	<dd>
+												                        	<div class="input-group">
+												                            	<label class="input" ng-class="{'state-error': ((warrantySupport.causalPart.$invalid &amp;&amp; warrantySupport.$invalid)||warrantySupport.$BlurCausalPart)}">
+														                            <input 
+														                            	class="input-sm ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" 
+														                            	type="text" 
+														                            	ng-model="warrantySupport.searchOptions.causalPartNumber" 
+														                            	name="causalCode" 
+														                            	ng-blur="warrantySupport.checkCausalPartNum()" 
+														                            	data-required="" 
+														                            	maxlength="3" 
+														                            	readonly="readonly"
+														                            	required
+													                            	>
+														                             
+													                            </label>
+													                            <div class="input-group-btn">
+												                                 	<button class="btn btn-default btn-sm" type="button" ng-click="warrantySupport.causalPartPopupOpen()"><i class="fa fa-search"></i></button>
+												                             	</div>
+												                         	</div>
+												                     	</dd>
+												                    </dl>														 	  			
+															 		<dl class="col col-6 no_border" >	
+															 	 		<dt class="warranty_dt_width"><label class="label need">Request Due Date:</label></dt>														 	
+																 		<dd>
+																	 		<label class="input">
+																				<i class="icon-append fa fa-calendar"></i> 
+																				<input type="text"
+											                                       name="roDate" 
+											                                       id="dueDate" 
+											                                       data-smart-datepicker
+											                                       placeholder="MM/DD/YYYY" 
+											                                       class="datepicker input-sm"
+											                                       data-date-format='mm/dd/yy'
+											                                       data-min-restrict="#repairDateOut"
+											                                       ng-model="warrantySupport.searchOptions.dueDate" 
+											                                       data-required
+											                                       required
+									                                       		>
+																			</label> 
+																 		</dd>
+															 		</dl>
+														 	  </div> 
+															</div>
+															<div class="empty_div col col-12 bottom_border no_padding"></div>
+															<div class="col col-12 bottom_border no_padding" >
+																<dl class="col col-6 no_border" >
+																	<dt class="warranty_dt_width"><label class="label need">First Name:</label></dt>
+																	<dd>
+																		<input 
+																			class="warranty_input_width2 form-control" 
+																			type="text" 
+																			ng-model="warrantySupport.searchOptions.firstName"  
+																			common-input-number-upper-char-only 
+																			id="firstName"
+																			required
+																			>
+																		</dd>
+																</dl>		
+																<dl class="col col-6 no_border">
+																	<dt class="warranty_dt_width"><label class="label need">Last Name:</label></dt>
+																	<dd>
+																		<input 
+																			class="warranty_input_width2 form-control" 
+																			type="text" 
+																			ng-model="warrantySupport.searchOptions.lastName"  
+																			common-input-number-upper-char-only 
+																			id="lastName"
+																			required
+																		>
+																	</dd>
+																</dl>													
+															</div>
+															<div class="col col-12 bottom_border no_padding" >
+																<dl class="col col-6 no_border" >
+																	<dt class="warranty_dt_width"><label class="label">Contact Phone Number:</label></dt>
+																	<dd>
+																		<input 
+																			class="warranty_input_width2 form-control" 
+																			type="text" 
+																			ng-model="warrantySupport.searchOptions.phoneNum" 
+																			common-input-number-upper-char-only 
+																			id="phoneNum"
+																		>
+																	</dd>
+																</dl>		
+																<dl class="col col-6 no_border">
+																	<dt class="warranty_dt_width"><label class="label need">Email Address:</label></dt> 
+																	<dd>
+																		<input 
+																			class="warranty_input_width2 form-control" 
+																			type="text" 
+																			ng-model="warrantySupport.searchOptions.emailAdd" 
+																			common-input-number-upper-char-only 
+																			id="emailAdd"
+																			required
+																		>
+																	</dd>
+																</dl>													
+															</div>
+																
+																
+															<div class="empty_div col col-12 bottom_border no_padding"></div>
+															<!-- Request Description -->
+															
+															<div class="col col-12 bottom_border no_padding" style="align-items:center ">
+												 	  			<dl class="col col-12 no_border" >	
+														 	 		<dt class="warranty_dt_width">
+														 	 			<label class="label need">Request (Enter needed assistance) Character Limit (1000 max):</label>
+													 	 			</dt>														 	
+															 		<dd> 
+															 			<textarea 
+															 				class="text_area form-control" 
+															 				id="request"
+															 				ng-model="warrantySupport.searchOptions.request" 
+															 				rows="4" 
+															 				maxlength="1000"
+															 				required
+														 				>
+															 			</textarea>
+															 		</dd>
+															 		</dl>
+													 		</div>
+													 		<div class="empty_div col col-12 bottom_border no_padding"></div>
+													 		<div class="col col-12 bottom_border no_padding" style="align-items:center ">
+													 			<dl class="col col-12 no_border" >	
+														 	 		<dt class="warranty_dt_width">
+														 	 			<label class="label">Attachment/s:</label>
+														 	 			<label class="select_file_label" for="attachment">placeholder for:</label>  <br/>        			    
+														    			<small class="form-text"> 
+														    				<li>Acceptable file types</li>
+														    				<li>Upload size max</li>
+														    				<li>Upload count limit</li>
+													    				</small>
+													 	 			</dt>														 	
+															 		<dd class=""> 
+															 			<input 
+															 				class="form-control-file warranty_attachment" 
+															 				type="file" 
+															 				id="attachment" 
+															 				file-model="formData.attachment"
+														 				>
+															 		</dd>
+														 		</dl>												 	  			
+													 		</div>
+															<div class="empty_div col col-12 no_padding"></div>
+															 
+															<br/>
+															<!-- Submit Button -->
+															<div class="col col-12 sub_btn" style="align-items:center ">	
+																<!-- <button type="submit" class="btn btn-primary btn-sm "  ng-click="warrantySupport.submitForm()" ng-disabled="supportForm.$invalid">Submit</button> -->
+																<!-- <button type="submit" class="btn btn-default btn-primary ng-binding" role="button" ng-disabled="(menuPermission.permissionCode != 'W'  || menuPermission.submitBtnDisabled)" ng-click="warrantySupport.submitForm()"><i class="fa fa-check"></i> Submit</button> -->
+																<button 
+																	type="submit" 
+																	class="btn btn-default btn-primary ng-binding" 
+																	role="button" ng-click="warrantySupport.submitForm()"
+																>
+																<i class="fa fa-check"></i> Submit
+																</button>
+															</div>	 
+												</div>									
+												 
+											</div>
+									</div>
+								</div>
+							</article>
+						</div> 
+					</form>
+				</section>
+			</div>
+		</div>
+		<div id="dealer_body" style="display:none;">
+		<h2>Dealer Page....</h2>
+		</div>
+		<div id="knowledgeBase" ng-controller="warrantySupportCtrl">
+	       <iframe id="" ng-src="https://www.hyundaiusa.com/us/en" width="100%" height="800"></iframe>
+	       <!-- https://www.hyundaiusa.com/us/en -->
+	       <!-- <iframe ng-src="{{iframeUrl}}" width="600" height="400" frameborder="0"></iframe> -->
+		</div>			 
+	</div>	
+</div>
